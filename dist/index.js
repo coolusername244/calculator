@@ -1,3 +1,10 @@
+const buttons = document.querySelectorAll('button');
+const calcDisplay = document.querySelector('h1');
+const codeText = document.querySelector('.code-text');
+const regexText = document.querySelector('.regex');
+const num1Span = document.querySelector('.num1');
+const signSpan = document.querySelector('.sign');
+const num2Span = document.querySelector('.num2');
 function evaluate(sum) {
     const sign = /[+\-*/]/;
     const a = /^\d+(\.\d+)?/;
@@ -12,23 +19,28 @@ function evaluate(sum) {
     if (operator === '/' && num2 === 0) {
         return `I can't do that :(`;
     }
+    function sendToDom(num1, operator, num2) {
+        num1Span.textContent = `= ${num1.toString()}`;
+        signSpan.textContent = `= ${operator}`;
+        num2Span.textContent = `= ${num2.toString()}`;
+    }
     switch (operator) {
         case '+':
+            sendToDom(num1, operator, num2);
             return num1 + num2;
         case '-':
+            sendToDom(num1, operator, num2);
             return num1 - num2;
         case '/':
+            sendToDom(num1, operator, num2);
             return num1 / num2;
         case '*':
+            sendToDom(num1, operator, num2);
             return num1 * num2;
         default:
             return `I can't do that :(`;
     }
 }
-const buttons = document.querySelectorAll('button');
-const calcDisplay = document.querySelector('h1');
-const codeText = document.querySelector('.code-text');
-const regexText = document.querySelector('.regex');
 function updateDisplay(value) {
     // if user presses an operator first - do not allow
     if (calcDisplay.textContent === '0') {
@@ -50,8 +62,6 @@ function updateDisplay(value) {
     if (calcDisplay.textContent === '0' && value !== '=') {
         calcDisplay.textContent = '';
         calcDisplay.textContent = value;
-        regexText.classList.remove('hide');
-        codeText.textContent = calcDisplay.textContent;
         return;
     }
     // if user presses = then do the calculation and update the display
@@ -62,8 +72,6 @@ function updateDisplay(value) {
     else {
         calcDisplay.textContent += value;
     }
-    console.log(calcDisplay);
-    codeText.textContent = calcDisplay.textContent;
 }
 // add updateDisplay function to each button
 buttons.forEach(button => {

@@ -43,7 +43,7 @@ body {
   border-radius: 12px;
   text-align: center;
   margin-right: 4rem;
-  display: inline;
+  display: inline-block;
   justify-content: center;
   align-items: center;
   width: 400px;
