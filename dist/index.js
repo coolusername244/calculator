@@ -1,10 +1,11 @@
 const buttons = document.querySelectorAll('button');
 const calcDisplay = document.querySelector('h1');
 const codeText = document.querySelector('.code-text');
-const regexText = document.querySelector('.regex');
+const regexTags = document.querySelectorAll('.regex p');
 const num1Span = document.querySelector('.num1');
 const signSpan = document.querySelector('.sign');
 const num2Span = document.querySelector('.num2');
+let regexDisplayed = false;
 function evaluate(sum) {
     const sign = /[+\-*/]/;
     const a = /^\d+(\.\d+)?/;
@@ -20,9 +21,9 @@ function evaluate(sum) {
         return `I can't do that :(`;
     }
     function sendToDom(num1, operator, num2) {
-        num1Span.textContent = `= ${num1.toString()}`;
-        signSpan.textContent = `= ${operator}`;
-        num2Span.textContent = `= ${num2.toString()}`;
+        num1Span.textContent = num1.toString();
+        signSpan.textContent = operator;
+        num2Span.textContent = num2.toString();
     }
     switch (operator) {
         case '+':
@@ -55,6 +56,12 @@ function updateDisplay(value) {
     }
     // if user has cleared the display - change display to 0
     if (value === 'c') {
+        if (regexDisplayed) {
+            regexTags.forEach(tag => {
+                tag.classList.toggle('hide');
+            });
+            regexDisplayed = false;
+        }
         calcDisplay.textContent = '0';
         return;
     }
@@ -68,6 +75,12 @@ function updateDisplay(value) {
     if (value === '=') {
         const sum = evaluate(calcDisplay.textContent);
         calcDisplay.textContent = sum.toString();
+        if (!regexDisplayed) {
+            regexTags.forEach(tag => {
+                tag.classList.toggle('hide');
+            });
+            regexDisplayed = true;
+        }
     }
     else {
         calcDisplay.textContent += value;
